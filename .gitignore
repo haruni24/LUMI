@@ -1,0 +1,10 @@
+# Secrets
+.env
+
+# Xcode
+DerivedData/
+build/
+*.xcuserstate
+*.xccheckout
+xcuserdata/
+
