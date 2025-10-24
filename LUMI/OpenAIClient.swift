@@ -30,17 +30,20 @@ final class OpenAIClient {
     }
 
     // Chat Completions (gpt-4o-mini)
-    struct ChatMessage: Codable {
+    struct ChatRequestMessage: Codable {
         let role: String
         let content: String
     }
 
     struct ChatResponse: Codable {
-        struct Choice: Codable { let message: ChatMessage }
+        struct Choice: Codable {
+            struct Message: Codable { let role: String; let content: String }
+            let message: Message
+        }
         let choices: [Choice]
     }
 
-    func chat(messages: [ChatMessage]) async throws -> String {
+    func chat(messages: [ChatRequestMessage]) async throws -> String {
         var req = URLRequest(url: baseURL.appendingPathComponent("chat/completions"))
         req.httpMethod = "POST"
         req.addValue("Bearer \(apiKey)", forHTTPHeaderField: "Authorization")
@@ -131,4 +134,3 @@ final class OpenAIClient {
         return data
     }
 }
-
